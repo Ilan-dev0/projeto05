@@ -94,7 +94,7 @@ window.onload = function(){
 				var elOff = $('.mini-img-wraper').eq(curIndex*3).offset().left - $('.nav-galeria-wraper').offset().left;
 				$('.nav-galeria').animate({'scrollLeft':elOff+'px'})
 			}else{
-				//console.log("Final aqui hein!");
+				//console.log("Final aqui hein!"); 
 			}
 		})
 		$('.arrow-left-nav').click(function(){
@@ -124,13 +124,68 @@ window.onload = function(){
 		Clicar e ir para a div de contato com base no atributo goto
 	*/
 
+	let directory = '/WebMaster/Módulos/Front-end geral/Projeto_05/'
+
 	$('[goto=contato]').click(function(){
-		$('nav a').css('color','black')
-		$(this).css('color','#EB2D2D')
-		$('html,body').animate({'scrollTop':$('#contato').offset().top})
+		location.href=directory+'home.html?contato';
 		return false;
 	})
 
+	function checkUrl(){
+		let url = location.href.split('/');
+		let curPage = url[url.length-1].split('?');
+		
+		if(curPage[1] != undefined && curPage[1] == 'contato'){
+			$('header nav a').css('color','black');
+			$('footer nav a').css('color','white');
+			$('[goto=contato]').css('color','#EB2D2D');
+			$('html,body').animate({'scrollTop':$('#contato').offset().top});
+		}
+	}
+
+		/*
+			menu responsivo
+		*/
+
+		$('.mobile').click(function(){
+			$(this).find('ul').slideToggle();
+		})
+
+		/*
+			Sistema de navegação nos depoimentos da home.html
+		*/
+
+		let amtDepoimento = $('.depoimentos-single p').length;
+		let curIndex2 = 0;
+
+		iniciarDepoi();
+		navegarDepoimentos(); 
+
+		function iniciarDepoi(){
+			$('.depoimentos-single p').hide();
+			$('.depoimentos-single p').eq(0).show();
+		}
+
+		function navegarDepoimentos(){
+			$('[next]').click(function(){
+				curIndex2++;
+				if(curIndex2 >= amtDepoimento)
+					curIndex2 = 0;
+				$('.depoimentos-single p').hide();
+				$('.depoimentos-single p').eq(curIndex2).show();
+			})
+
+			$('[prev]').click(function(){
+				curIndex2--;
+				if(curIndex2 < 0)
+					curIndex2 = amtDepoimento-1;
+				$('.depoimentos-single p').hide();
+				$('.depoimentos-single p').eq(curIndex2).show();
+			})
+		}
+
+	
+	checkUrl();
 	initSlider();
 	navigateSlider();
 	clickSlider()
